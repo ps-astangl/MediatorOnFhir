@@ -1,10 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Hl7.Fhir.Serialization;
 using MediatorOnFhir.Extensions;
+using MediatorOnFhir.Features.ActionResults;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,11 +26,25 @@ namespace MediatorOnFhir.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Resource>> Resource()
+        [Route("{resource}")]
+        public async Task<ActionResult<Resource>> Resource(string resource)
         {
-            _logger.LogInformation("Performing Search");
-             var searchResourceAsync = await _mediator.SearchResourceAsync("Flag", new SearchParams(), CancellationToken.None);
-             return new OkObjectResult(searchResourceAsync.Resource.ToJson());
+            // TODO: Can be made into a decorator for the controller
+            string knownResource = resource.GetResourceFromString();
+            if (string.IsNullOrWhiteSpace(knownResource))
+                return OperationOutcomeResult.CreateOperationOutcomeResult(
+                    "Resource not known.",
+                    OperationOutcome.IssueSeverity.Error,
+                    OperationOutcome.IssueType.NotFound,
+                    StatusCodes.Status404NotFound);
+
+            _logger.LogInformation($"Performing Search for {knownResource}...");
+
+            // TODO: Can be parsed from query
+            var searchParams = new SearchParams();
+
+            var searchResourceAsync = await _mediator.SearchResourceAsync(knownResource, searchParams, CancellationToken.None);
+            return FhirResult.CreateInstance(searchResourceAsync.Resource, StatusCodes.Status200OK);
         }
     }
 }

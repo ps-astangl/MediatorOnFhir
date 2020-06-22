@@ -1,4 +1,6 @@
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Serialization;
+using MediatorOnFhir.Features.Formatters;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +21,10 @@ namespace MediatorOnFhir
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+            {
+                options.OutputFormatters.Insert(0,new FhirJsonOutputFormatter());
+            });
             services.AddControllers();
             services.AddTransient<IFhirClient>(provider => new FhirClient(_configuration["FhirServer"])
             {

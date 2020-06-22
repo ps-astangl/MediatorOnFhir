@@ -5,7 +5,12 @@ namespace MediatorOnFhir.Messages
 {
     public class SearchResourceRequest : IRequest<SearchResourceResponse>
     {
-        public SearchResourceRequest(SearchParams searchParams, string resourceType)
+        public static SearchResourceRequest CreateInstance(SearchParams searchParams, string resourceType)
+        {
+            return new SearchResourceRequest(searchParams, resourceType);
+        }
+
+        private SearchResourceRequest(SearchParams searchParams, string resourceType)
         {
             SearchParams = searchParams;
             ResourceType = resourceType;

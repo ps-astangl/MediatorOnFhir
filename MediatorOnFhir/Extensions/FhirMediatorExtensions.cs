@@ -14,7 +14,8 @@ namespace MediatorOnFhir.Extensions
             SearchParams searchParams,
             CancellationToken cancellationToken = default)
         {
-            return await mediator.Send(new SearchResourceRequest(searchParams, resourceType), cancellationToken);
+            var searchResourceRequest = SearchResourceRequest.CreateInstance(searchParams, resourceType);
+            return await mediator.Send(searchResourceRequest, cancellationToken);
         }
     }
 }

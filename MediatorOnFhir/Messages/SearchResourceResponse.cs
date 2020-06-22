@@ -1,16 +1,16 @@
-﻿using System.Threading.Tasks;
-using EnsureThat;
+﻿using EnsureThat;
 using Hl7.Fhir.Model;
 
 namespace MediatorOnFhir.Messages
 {
     public class SearchResourceResponse
     {
-        public SearchResourceResponse(Resource resource)
+        public static SearchResourceResponse CreateInstance(Resource resource)
         {
-            EnsureArg.IsNotNull(resource, nameof(resource));
-            Resource = resource;
+            return new SearchResourceResponse(resource);
         }
+
+        private SearchResourceResponse(Resource resource) => Resource = resource;
 
         public Resource Resource { get; }
     }
