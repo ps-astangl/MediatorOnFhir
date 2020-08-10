@@ -16,11 +16,8 @@ namespace MediatorOnFhir.Features.Formatters
 {
     public class FhirJsonOutputFormatter : TextOutputFormatter
     {
-        private readonly FhirJsonSerializer _fhirJsonSerializer;
-
         public FhirJsonOutputFormatter()
         {
-            _fhirJsonSerializer = new FhirJsonSerializer(new SerializerSettings{Pretty = true});
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
             foreach (var mediaHeader in ContentType.JSON_CONTENT_HEADERS)
