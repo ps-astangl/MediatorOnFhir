@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Linq;
 using Hl7.Fhir.Model;
 
@@ -9,9 +8,9 @@ namespace MediatorOnFhir.Extensions
     {
         private static Array KnownResources => Enum.GetValues(typeof(ResourceType));
 
-        public static string? GetResourceFromString(this string resource)
+        public static string GetResourceFromString(this string resource)
         {
-            return KnownResources.Cast<object?>()
+            return KnownResources.Cast<object>()
                 .Where(knownResource =>
                     knownResource?.ToString()?.Equals(resource, StringComparison.InvariantCultureIgnoreCase) ?? false)
                 .Select(knownResource => knownResource?.ToString())
