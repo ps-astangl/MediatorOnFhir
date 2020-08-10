@@ -20,3 +20,10 @@
 /dataSources/
 /dataSources.local.xml
 # Editor-based HTT
+/MediatorOnFhir/.idea/.idea.MediatorOnFhir.dir/.idea/.gitignore
+/MediatorOnFhir/.idea/.idea.MediatorOnFhir.dir/.idea/.idea.MediatorOnFhir.dir.iml
+/MediatorOnFhir/.idea/.idea.MediatorOnFhir.dir/.idea/encodings.xml
+/MediatorOnFhir/.idea/.idea.MediatorOnFhir.dir/.idea/indexLayout.xml
+/MediatorOnFhir/.idea/.idea.MediatorOnFhir.dir/.idea/misc.xml
+/MediatorOnFhir/.idea/.idea.MediatorOnFhir.dir/riderModule.iml
+/MediatorOnFhir/.idea/.idea.MediatorOnFhir.dir/.idea/vcs.xml
