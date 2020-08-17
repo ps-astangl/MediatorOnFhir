@@ -5,13 +5,16 @@ namespace MediatorOnFhir.Messages
 {
     public class SearchResourceResponse
     {
-        public static SearchResourceResponse CreateInstance(Resource resource)
+        public Resource Resource { get; set;  }
+        public int StatusCode { get; set; }
+
+        public static SearchResourceResponse CreateInstance(Resource resource, int statusCode)
         {
-            return new SearchResourceResponse(resource);
+            return new SearchResourceResponse
+            {
+                Resource = resource,
+                StatusCode = statusCode
+            };
         }
-
-        private SearchResourceResponse(Resource resource) => Resource = resource;
-
-        public Resource Resource { get; }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using MediatorOnFhir.Messages;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Task = System.Threading.Tasks.Task;
+using static MediatorOnFhir.Extensions.FhirClientExtensions;
 
 namespace MediatorOnFhir.Handlers
 {
@@ -19,35 +18,13 @@ namespace MediatorOnFhir.Handlers
             _fhirClient = fhirClient;
             _logger = logger;
         }
-        
-        public async Task<SearchResourceResponse> Handle(SearchResourceRequest request, CancellationToken cancellationToken)
+
+        public async Task<SearchResourceResponse> Handle(SearchResourceRequest request,
+            CancellationToken cancellationToken)
         {
-            var resource = await PerformSearch(request);
-            return SearchResourceResponse.CreateInstance(resource);
-        }
-
-        private async Task<Resource> PerformSearch(SearchResourceRequest request)
-        {
-            var pagedResult = await Task.Run(() =>
-            {
-                var pagedResultTask = _fhirClient.SearchAsync(request.SearchParams, request.ResourceType);
-                return pagedResultTask;
-            });
-
-            Bundle bundle = pagedResult.DeepCopy() as Bundle;
-            int count = 1;
-            do
-            {
-                _logger.LogInformation($"Paging result: {count}...");
-                pagedResult = await _fhirClient.ContinueAsync(pagedResult);
-                if (pagedResult?.Entry == null) continue;
-                bundle?.Entry?.AddRange(pagedResult.Entry);
-                count++;
-            } while (pagedResult != null);
-
-            if (bundle != null)
-                bundle.Total = bundle.Entry?.Count ?? 0;
-            return bundle;
+            _logger.LogInformation("Performing Search Request...");
+            var resource = await _fhirClient.PerformSearch(request.SearchParams, request.ResourceType);
+            return SearchResourceResponse.CreateInstance(resource, 200);
         }
     }
 }

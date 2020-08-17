@@ -57,6 +57,9 @@ namespace MediatorOnFhir.Controllers
             _logger.LogInformation("Searching using mediator service layer...");
             var searchWithServiceMediator = await _fhirMediatorService.SendSearchResourceRequest(request);
 
+            _logger.LogInformation("Performing simple resource search");
+            var simpleResourceResponse = await _mediator.SimpleResourceAsync(knownResource, searchParams);
+
             return FhirResult.CreateInstance(searchWithMediatorExtensions.Resource, StatusCodes.Status200OK);
         }
     }

@@ -1,10 +1,14 @@
-﻿﻿﻿using Hl7.Fhir.Rest;
+﻿using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
 using MediatR;
 
 namespace MediatorOnFhir.Messages
 {
     public class SearchResourceRequest : IRequest<SearchResourceResponse>
     {
+        public SearchParams SearchParams { get; }
+        public string ResourceType { get; }
+
         public static SearchResourceRequest CreateInstance(SearchParams searchParams, string resourceType)
         {
             return new SearchResourceRequest(searchParams, resourceType);
@@ -15,7 +19,5 @@ namespace MediatorOnFhir.Messages
             SearchParams = searchParams;
             ResourceType = resourceType;
         }
-        public SearchParams SearchParams { get; set; }
-        public string ResourceType { get; set; }
     }
 }
