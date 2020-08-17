@@ -45,6 +45,8 @@ namespace MediatorOnFhir.Handlers
                 count++;
             } while (pagedResult != null);
 
+            if (bundle != null)
+                bundle.Total = bundle.Entry?.Count ?? 0;
             return bundle;
         }
     }

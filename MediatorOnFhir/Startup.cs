@@ -1,5 +1,6 @@
 using Hl7.Fhir.Rest;
 using MediatorOnFhir.Features.Formatters;
+using MediatorOnFhir.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +27,13 @@ namespace MediatorOnFhir
                 PreferredReturn = Prefer.ReturnRepresentation,
                 PreferredFormat = ResourceFormat.Json
             });
+
+            // Just using the mediator
             services.AddMediatR(typeof(Startup));
+            // Creating a custom mediator
+            services.AddTransient<IMediator, FhirMediator>();
+            // Creating an additional service layer for the mediator
+            services.AddTransient<IFhirMediatorService, FhirMediatorService>();
         }
 
 
