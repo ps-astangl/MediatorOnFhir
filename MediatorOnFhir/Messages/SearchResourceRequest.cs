@@ -4,11 +4,8 @@ using MediatR;
 
 namespace MediatorOnFhir.Messages
 {
-    public class SearchResourceRequest : IRequest<SearchResourceResponse>
+    public class SearchResourceRequest : BaseResourceRequest, IRequest<SearchResourceResponse>
     {
-        public SearchParams SearchParams { get; }
-        public string ResourceType { get; }
-
         public static SearchResourceRequest CreateInstance(SearchParams searchParams, string resourceType)
         {
             return new SearchResourceRequest(searchParams, resourceType);

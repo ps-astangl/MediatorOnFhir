@@ -1,5 +1,4 @@
-﻿using EnsureThat;
-using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.Model;
 
 namespace MediatorOnFhir.Messages
 {

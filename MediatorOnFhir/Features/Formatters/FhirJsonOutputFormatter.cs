@@ -9,7 +9,6 @@ using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Logging;
 using Task = System.Threading.Tasks.Task;
 
 namespace MediatorOnFhir.Features.Formatters

@@ -22,8 +22,15 @@ namespace MediatorOnFhir.Handlers
 
         public async Task<Resource> Handle(SimpleResourceRequest request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Performing simple resource search...");
-            return await _fhirClient.PerformSearch(request.SearchParams, request.ResourceType);
+            try
+            {
+                _logger.LogInformation("Performing simple resource search...");
+                return await _fhirClient.PerformSearch(request.SearchParams, request.ResourceType);
+            }
+            catch (FhirOperationException fhirOperationException)
+            {
+                return fhirOperationException.Outcome;
+            }
         }
     }
 }
